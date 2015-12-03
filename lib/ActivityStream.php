@@ -24,7 +24,7 @@ class ActivityStream {
     if (!file_exists($position_dir) || !is_writable($position_dir)) {
       throw new Exception($position_dir." must exist and be writable!");
     }
-    $position_file = $position_dir.'/last_posted';
+    $position_file = $position_dir.'/last_posted_in_board_'.$board_id;
     if (!file_exists($position_file)) {
       touch($position_file);
     }
