@@ -19,5 +19,8 @@ class ActivityStream {
     $to_date = new DateTime();
     $to_date->add($interval);
     $activities = new ActivityList($this->kanbanize, $board_id, $from_date, $to_date);
+    foreach ($activities as $k => $v) {
+      var_dump($k, $v);
+    }
   }
 }
