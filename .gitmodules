@@ -1,0 +1,3 @@
+[submodule "lib/KanbanizePHP"]
+	path = lib/KanbanizePHP
+	url = https://github.com/middlebury/KanbanizePHP.git
