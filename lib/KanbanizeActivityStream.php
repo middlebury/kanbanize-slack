@@ -2,9 +2,9 @@
 
 require_once(dirname(__FILE__)."/KanbanizePHP/API.php");
 require_once(dirname(__FILE__)."/KanbanizePHP/APICall.php");
-require_once(dirname(__FILE__)."/ActivityList.php");
+require_once(dirname(__FILE__)."/KanbanizeActivityList.php");
 
-class ActivityStream {
+class KanbanizeActivityStream {
 
   protected $tasks = array();
 
@@ -20,7 +20,7 @@ class ActivityStream {
     $from_date->sub($interval);
     $to_date = new DateTime();
     $to_date->add($interval);
-    $activities = new ActivityList($this->kanbanize, $board_id, $from_date, $to_date);
+    $activities = new KanbanizeActivityList($this->kanbanize, $board_id, $from_date, $to_date);
 
     $position_dir = realpath(dirname(__FILE__).'/../data');
     if (!file_exists($position_dir) || !is_writable($position_dir)) {
