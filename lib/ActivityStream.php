@@ -6,13 +6,15 @@ require_once(dirname(__FILE__)."/ActivityList.php");
 
 class ActivityStream {
 
+  protected $tasks = array();
+
   function __construct($subdomain, $apikey) {
     $this->kanbanize = EtuDev_KanbanizePHP_API::getInstance();
     $this->kanbanize->setSubdomain($subdomain);
     $this->kanbanize->setApiKey($apikey);
   }
 
-  function load_new_activity_for_board($board_id) {
+  function get_new_activity_for_board($board_id) {
     $interval = new DateInterval("P2D");
     $from_date = new DateTime();
     $from_date->sub($interval);
@@ -35,18 +37,32 @@ class ActivityStream {
     // Post any new activity to Slack.
     $last_posted = trim(file_get_contents($position_file));
     $top_item = $activities->current();
+    $new_activity = array();
     foreach ($activities as $item) {
       if ($item["hash"] == $last_posted) {
         break;
       } else {
-        $this->post_activity($item);
+        if (!empty($item["taskid"])) {
+          $item["task"] = $this->get_task($board_id, $item["taskid"]);
+        }
+        $new_activity[] = $item;
       }
     }
     // Record the most recent item's hash
     file_put_contents($position_file, $top_item["hash"]);
+
+    return $new_activity;
   }
 
-  function post_activity(array $item) {
-    print "\nposting "; print_r($item);
+  function get_task($board_id, $id) {
+    if (!isset($this->tasks[$board_id.'.'.$id])) {
+      $this->tasks[$board_id.'.'.$id] = $this->fetch_task($board_id, $id);
+    }
+    return $this->tasks[$board_id.'.'.$id];
+  }
+
+  function fetch_task($board_id, $id) {
+    $result = $this->kanbanize->getTaskDetails($board_id, $id);
+    return $result;
   }
 }

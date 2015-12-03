@@ -13,4 +13,6 @@ if (!defined("KANBANIZE_SUBDOMAIN") || empty(KANBANIZE_SUBDOMAIN)) {
 }
 
 $stream = new ActivityStream(KANBANIZE_SUBDOMAIN, KANBANIZE_API_KEY);
-$stream->load_new_activity_for_board(2);
+$activity = $stream->get_new_activity_for_board(2);
+
+var_dump($activity);
