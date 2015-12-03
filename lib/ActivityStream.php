@@ -19,8 +19,34 @@ class ActivityStream {
     $to_date = new DateTime();
     $to_date->add($interval);
     $activities = new ActivityList($this->kanbanize, $board_id, $from_date, $to_date);
-    foreach ($activities as $k => $v) {
-      var_dump($k, $v);
+
+    $position_dir = realpath(dirname(__FILE__).'/../data');
+    if (!file_exists($position_dir) || !is_writable($position_dir)) {
+      throw new Exception($position_dir." must exist and be writable!");
     }
+    $position_file = $position_dir.'/last_posted';
+    if (!file_exists($position_file)) {
+      touch($position_file);
+    }
+    if (!is_writable($position_file)) {
+      throw new Exception($position_file." must be writable!");
+    }
+
+    // Post any new activity to Slack.
+    $last_posted = trim(file_get_contents($position_file));
+    $top_item = $activities->current();
+    foreach ($activities as $item) {
+      if ($item["hash"] == $last_posted) {
+        break;
+      } else {
+        $this->post_activity($item);
+      }
+    }
+    // Record the most recent item's hash
+    file_put_contents($position_file, $top_item["hash"]);
+  }
+
+  function post_activity(array $item) {
+    print "\nposting "; print_r($item);
   }
 }
