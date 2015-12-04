@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-require_once(dirname(__FILE__)."/../config.php");
 require_once(dirname(__FILE__)."/../lib/autoload.php");
+require_once(dirname(__FILE__)."/../config.php");
 
 date_default_timezone_set("UTC");
 
@@ -53,21 +53,10 @@ foreach ($config['SLACK_ORGS'] as $org_name => $org_opts) {
   foreach ($org_opts['DESTINATIONS'] as $channel => $filters) {
     $destination = new Slack_Destination($channel);
     if (empty($filters)) {
-      $destination->add_filter(new Slack_Filter_Everything);
+      throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel'] must include at least one filter. \nExample: \n\t\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel'] = array(new Slack_Filter_Everything()); ");
     }
     foreach ($filters as $fid => $filter) {
-      if (!class_exists($filter['FILTER_CLASS'])) {
-        throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel'][$fid]['FILTER_CLASS'] must be a valid class.");
-      }
-      $reflector = new ReflectionClass($filter['FILTER_CLASS']);
-      $args = array();
-      if (!empty($filter['FILTER_ARGS'])) {
-        if (!is_array($filter['FILTER_ARGS'])) {
-          throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel'][$fid]['FILTER_ARGS'] must be an array of arguments.");
-        }
-        $args = $filter['FILTER_ARGS'];
-      }
-      $destination->add_filter($reflector->newInstanceArgs($args));
+      $destination->add_filter($filter);
     }
     $slack->add_destination($destination);
   }

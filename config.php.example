@@ -12,27 +12,15 @@ $config['SLACK_ORGS']['my_org']['WEBHOOK_URL'] = '';
 $config['SLACK_ORGS']['my_org']['DESTINATIONS'] = array(
   // Send everything to #my-channel
   '#my-channel' => array(
-    array(
-      'FILTER_CLASS' => 'Slack_Filter_Everything',
-      'FILTER_ARGS' => array(),
-    )
+    new Slack_Filter_Everything(),
   ),
   // Send items from board 4 to #other-channel
   '#other-channel' => array(
-    array(
-      'FILTER_CLASS' => 'Slack_Filter_Board',
-      'FILTER_ARGS' => array(4),
-    )
+    new Slack_Filter_Board(4),
   ),
   // Send others' changes to items assigned to me to my personal channel.
   '@username' => array(
-    array(
-      'FILTER_CLASS' => 'Slack_Filter_Assignee',
-      'FILTER_ARGS' => array('username'),
-    ),
-    array(
-      'FILTER_CLASS' => 'Slack_Filter_NotAuthor',
-      'FILTER_ARGS' => array('username'),
-    ),
+    Slack_Filter_Assignee('username'),
+    Slack_Filter_NotAuthor('username'),
   ),
 );
