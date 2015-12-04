@@ -1,6 +1,6 @@
 <?php
 
-interface Slack_Filter {
+interface Filter {
 
   public function include_item(array $item);
 

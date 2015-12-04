@@ -1,10 +1,10 @@
 <?php
 
-class Slack_Filter_Not implements Slack_Filter {
+class Filter_Not implements Filter {
 
   protected $arg;
 
-  public function __construct (Slack_Filter $arg) {
+  public function __construct (Filter $arg) {
     $this->arg = $arg;
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-class Slack_Filter_Everything implements Slack_Filter {
+class Filter_Everything implements Filter {
 
   public function include_item(array $item) {
     return true;

@@ -1,6 +1,6 @@
 <?php
 
-class Slack_Filter_Assignee implements Slack_Filter {
+class Filter_Kanbanize_Assignee implements Filter {
 
   protected $assignee;
 

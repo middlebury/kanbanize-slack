@@ -1,6 +1,6 @@
 <?php
 
-class Slack_Filter_Board implements Slack_Filter {
+class Filter_Kanbanize_Board implements Filter {
 
   protected $board_id;
 

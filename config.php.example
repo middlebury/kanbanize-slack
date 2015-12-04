@@ -11,14 +11,14 @@ $config['KANBANIZE']['BOARDS'] = array(2);
 $config['SLACK_ORGS']['my_org']['WEBHOOK_URL'] = '';
 $config['SLACK_ORGS']['my_org']['DESTINATIONS'] = array(
   // Send everything to #my-channel
-  '#my-channel' => new Slack_Filter_Everything(),
+  '#my-channel' => new Filter_Everything(),
 
   // Send items from board 4 to #other-channel
-  '#other-channel' => new Slack_Filter_Board(4),
+  '#other-channel' => new Filter_Board(4),
 
   // Send others' changes to items assigned to me to my personal channel.
-  '@username' => new Slack_Filter_And(
-    new Slack_Filter_Assignee('username'),
-    new Slack_Filter_Not(new Slack_Filter_Author('username'))
+  '@username' => new Filter_And(
+    new Filter_Kanbanize_Assignee('username'),
+    new Filter_Not(new Filter_Kanbanize_Author('username'))
   ),
 );

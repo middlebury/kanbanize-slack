@@ -4,7 +4,7 @@ class Slack_Destination {
 
   protected $filter;
 
-  public function __construct($channel, Slack_Filter $filter) {
+  public function __construct($channel, Filter $filter) {
     if (!strlen($channel)) {
       throw new InvalidArgumentException("You must specify a channel.");
     }

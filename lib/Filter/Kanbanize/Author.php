@@ -1,6 +1,6 @@
 <?php
 
-class Slack_Filter_Author implements Slack_Filter {
+class Filter_Kanbanize_Author implements Filter {
 
   protected $author;
 

@@ -1,6 +1,6 @@
 <?php
 
-class Slack_Filter_And extends Slack_Filter_Or {
+class Filter_And extends Filter_Or {
 
   public function include_item(array $item) {
     foreach ($this->args as $arg) {
