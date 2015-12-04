@@ -6,3 +6,4 @@ define("KANBANIZE_API_KEY", "");
 define("KANBANIZE_SUBDOMAIN", "");
 
 define("SLACK_URL", "");
+define("SLACK_CHANNEL", "");
