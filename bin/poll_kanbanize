@@ -32,5 +32,5 @@ foreach ($activities as $item) {
 
 $slack = new SlackRouter(SLACK_URL);
 $slack->add_destination(new EverythingSlackDestination("@afranco"));
-$slack->add_formatter(new KanbanizeSlackFormatter('Kanbanize'));
+$slack->add_formatter(new KanbanizeSlackFormatter('Kanbanize', 'https://lh5.ggpht.com/aoUf1ZvpVeACwH2TBy0nP_Ipv53PtVnU42vCuutBDqCKcnfp5j78wUfBm41zix88_BM=w300'));
 $slack->route_activities($groups);
