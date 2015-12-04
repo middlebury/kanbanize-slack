@@ -68,11 +68,13 @@ class Slack_Formatter_Kanbanize implements Slack_Formatter {
         "value" => $t['priority'],
         "short" => true,
       );
-      $a['fields'][] = array(
-        "title" => "Tags",
-        "value" => $t['tags'],
-        "short" => true,
-      );
+      if ($t['tags']) {
+        $a['fields'][] = array(
+          "title" => "Tags",
+          "value" => $t['tags'],
+          "short" => true,
+        );
+      }
       $a['fields'][] = array(
         "title" => "Column",
         "value" => $t['columnname'],
