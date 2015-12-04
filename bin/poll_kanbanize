@@ -3,6 +3,9 @@
 
 require_once(dirname(__FILE__)."/../config.php");
 require_once(dirname(__FILE__)."/../lib/KanbanizeActivityStream.php");
+require_once(dirname(__FILE__)."/../lib/SlackRouter.php");
+require_once(dirname(__FILE__)."/../lib/EverythingSlackDestination.php");
+require_once(dirname(__FILE__)."/../lib/KanbanizeSlackFormatter.php");
 
 date_default_timezone_set("UTC");
 if (!defined("KANBANIZE_API_KEY") || empty(KANBANIZE_API_KEY)) {
@@ -11,8 +14,14 @@ if (!defined("KANBANIZE_API_KEY") || empty(KANBANIZE_API_KEY)) {
 if (!defined("KANBANIZE_SUBDOMAIN") || empty(KANBANIZE_SUBDOMAIN)) {
   throw new Exception("KANBANIZE_SUBDOMAIN must be defined in config.php");
 }
+if (!defined("SLACK_URL") || empty(SLACK_URL)) {
+  throw new Exception("SLACK_URL must be defined in config.php");
+}
 
 $kanbanize = new KanbanizeActivityStream(KANBANIZE_SUBDOMAIN, KANBANIZE_API_KEY);
-$activity = $kanbanize->get_new_activity_for_board(2);
+$activities = $kanbanize->get_new_activity_for_board(2);
 
-var_dump($activity);
+$slack = new SlackRouter(SLACK_URL);
+$slack->add_destination(new EverythingSlackDestination("@afranco"));
+$slack->add_formatter(new KanbanizeSlackFormatter('Kanbanize'));
+$slack->route_activities($activities);
