@@ -10,12 +10,29 @@ $config['KANBANIZE']['BOARDS'] = array(2);
 // Each of the SLACK_ORGS must have at least one destination channel/filter.
 $config['SLACK_ORGS']['my_org']['WEBHOOK_URL'] = '';
 $config['SLACK_ORGS']['my_org']['DESTINATIONS'] = array(
+  // Send everything to #my-channel
   '#my-channel' => array(
-    'FILTER_CLASS' => 'Slack_Filter_Everything',
-    'FILTER_ARGS' => array(),
+    array(
+      'FILTER_CLASS' => 'Slack_Filter_Everything',
+      'FILTER_ARGS' => array(),
+    )
   ),
+  // Send items from board 4 to #other-channel
+  '#other-channel' => array(
+    array(
+      'FILTER_CLASS' => 'Slack_Filter_Board',
+      'FILTER_ARGS' => array(4),
+    )
+  ),
+  // Send others' changes to items assigned to me to my personal channel.
   '@username' => array(
-    'FILTER_CLASS' => 'Slack_Filter_NotAuthor',
-    'FILTER_ARGS' => array('username'),
-  )
+    array(
+      'FILTER_CLASS' => 'Slack_Filter_Assignee',
+      'FILTER_ARGS' => array('username'),
+    ),
+    array(
+      'FILTER_CLASS' => 'Slack_Filter_NotAuthor',
+      'FILTER_ARGS' => array('username'),
+    ),
+  ),
 );

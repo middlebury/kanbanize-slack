@@ -2,16 +2,17 @@
 
 class Slack_Destination {
 
-  public function __construct($channel, Slack_Filter $filter = null) {
+  protected $filters = array();
+
+  public function __construct($channel) {
     if (!strlen($channel)) {
       throw new InvalidArgumentException("You must specify a channel.");
     }
     $this->channel = $channel;
-    if (empty($filter)) {
-      $this->filter = new Slack_Filter_Everything();
-    } else {
-      $this->filter = $filter;
-    }
+  }
+
+  public function add_filter(Slack_Filter $filter) {
+    $this->filters[] = $filter;
   }
 
   public function get_channel() {
@@ -19,7 +20,16 @@ class Slack_Destination {
   }
 
   public function item_matches(array $item) {
-    return $this->filter->include_item($item);
+    if (empty($this->filters)) {
+      throw new Exception("No filters configured for $this->channel");
+    }
+    // We AND our filters
+    foreach ($this->filters as $filter) {
+      if (!$filter->include_item($item)) {
+        return false;
+      }
+    }
+    return true;
   }
 
 }
