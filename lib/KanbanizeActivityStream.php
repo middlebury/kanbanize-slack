@@ -49,6 +49,12 @@ class KanbanizeActivityStream {
           $item["task"] = $this->get_task($board_id, $item["taskid"]);
           $item["board"] = $this->get_board($board_id);
           $item["url"] = "https://".$this->subdomain.".kanbanize.com/ctrl_board/".$board_id."/".$item["taskid"];
+
+          // Remove the additional subtask activity entry. We'll see it in the parent change.
+          if (is_null($item["task"]["columnname"])) {
+            unset($item);
+            continue;
+          }
         }
         $new_activity[] = $item;
       }
