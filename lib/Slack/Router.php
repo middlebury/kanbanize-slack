@@ -13,8 +13,8 @@ class Slack_Router {
     $this->slack_url = $slack_url;
   }
 
-  public function add_destination(Slack_Destination $destination) {
-    $this->destinations[] = $destination;
+  public function add_destination($channel, Slack_Filter $filter = null) {
+    $this->destinations[] = new Slack_Destination($channel, $filter);
   }
 
   public function add_formatter(Slack_Formatter $formatter) {

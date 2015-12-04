@@ -51,21 +51,22 @@ foreach ($config['SLACK_ORGS'] as $org_name => $org_opts) {
     throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS'] must be an array of destination channels/filters.");
   }
   foreach ($org_opts['DESTINATIONS'] as $channel => $dest) {
-    if (empty($dest['CLASS'])) {
-      throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel']['CLASS'] must be a valid class and not empty.");
-    }
-    if (!class_exists($dest['CLASS'])) {
-      throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel']['CLASS'] must be a valid class.");
-    }
-    $reflector = new ReflectionClass($dest['CLASS']);
-    $args = array($channel);
-    if (!empty($dest['ARGS'])) {
-      if (!is_array($dest['ARGS'])) {
-        throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel']['ARGS'] must be an array of arguments.");
+    $filter = null;
+    if (!empty($dest)) {
+      if (!class_exists($dest['FILTER_CLASS'])) {
+        throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel']['FILTER_CLASS'] must be a valid class.");
       }
-      $args = array_merge($args, $dest['ARGS']);
+      $reflector = new ReflectionClass($dest['FILTER_CLASS']);
+      $args = array();
+      if (!empty($dest['FILTER_ARGS'])) {
+        if (!is_array($dest['FILTER_ARGS'])) {
+          throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel']['FILTER_ARGS'] must be an array of arguments.");
+        }
+        $args = $dest['FILTER_ARGS'];
+      }
+      $filter = $reflector->newInstanceArgs($args);
     }
-    $slack->add_destination($reflector->newInstanceArgs($args));
+    $slack->add_destination($channel, $filter);
   }
 
   // Add our formatters

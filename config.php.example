@@ -11,7 +11,7 @@ $config['KANBANIZE']['BOARDS'] = array(2);
 $config['SLACK_ORGS']['my_org']['WEBHOOK_URL'] = '';
 $config['SLACK_ORGS']['my_org']['DESTINATIONS'] = array(
   '#my-channel' => array(
-    'CLASS' => 'Slack_Destination_Everything',
-    'ARGS' => array(),
+    'FILTER_CLASS' => 'Slack_Filter_Everything',
+    'FILTER_ARGS' => array(),
   ),
 );
