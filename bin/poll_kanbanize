@@ -50,15 +50,11 @@ foreach ($config['SLACK_ORGS'] as $org_name => $org_opts) {
   if (empty($org_opts['DESTINATIONS'])) {
     throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS'] must be an array of destination channels/filters.");
   }
-  foreach ($org_opts['DESTINATIONS'] as $channel => $filters) {
-    $destination = new Slack_Destination($channel);
-    if (empty($filters)) {
-      throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel'] must include at least one filter. \nExample: \n\t\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel'] = array(new Slack_Filter_Everything()); ");
+  foreach ($org_opts['DESTINATIONS'] as $channel => $filter) {
+    if (empty($filter)) {
+      throw new Exception("\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel'] must be an instance of Slack_Filter. \nExample: \n\t\$config['SLACK_ORGS']['$org_name']['DESTINATIONS']['$channel'] = new Slack_Filter_Everything(); ");
     }
-    foreach ($filters as $fid => $filter) {
-      $destination->add_filter($filter);
-    }
-    $slack->add_destination($destination);
+    $slack->add_destination(new Slack_Destination($channel, $filter));
   }
 
   // Add our formatters
