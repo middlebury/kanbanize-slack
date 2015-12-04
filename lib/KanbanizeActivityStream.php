@@ -1,9 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__)."/KanbanizePHP/API.php");
-require_once(dirname(__FILE__)."/KanbanizePHP/APICall.php");
-require_once(dirname(__FILE__)."/KanbanizeActivityList.php");
-
 class KanbanizeActivityStream {
 
   protected $tasks = array();

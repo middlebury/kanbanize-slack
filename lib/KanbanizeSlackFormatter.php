@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__).'/SlackFormatter.php');
-
 class KanbanizeSlackFormatter implements SlackFormatter {
 
   protected $username;

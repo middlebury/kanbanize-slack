@@ -2,10 +2,7 @@
 <?php
 
 require_once(dirname(__FILE__)."/../config.php");
-require_once(dirname(__FILE__)."/../lib/KanbanizeActivityStream.php");
-require_once(dirname(__FILE__)."/../lib/SlackRouter.php");
-require_once(dirname(__FILE__)."/../lib/EverythingSlackDestination.php");
-require_once(dirname(__FILE__)."/../lib/KanbanizeSlackFormatter.php");
+require_once(dirname(__FILE__)."/../lib/autoload.php");
 
 date_default_timezone_set("UTC");
 if (!defined("KANBANIZE_API_KEY") || !strlen(KANBANIZE_API_KEY)) {

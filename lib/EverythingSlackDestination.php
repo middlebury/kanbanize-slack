@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__).'/SlackDestination.php');
-
 class EverythingSlackDestination implements SlackDestination {
 
   protected $channel;
