@@ -13,8 +13,8 @@ $config['SLACK_ORGS']['my_org']['DESTINATIONS'] = array(
   // Send everything to #my-channel
   '#my-channel' => new Filter_Everything(),
 
-  // Send items from board 4 to #other-channel
-  '#other-channel' => new Filter_Board(4),
+  // Send items from boards 4 and 5 to #other-channel
+  '#other-channel' => new Filter_Board(4, 5),
 
   // Send others' changes to items assigned to me to my personal channel.
   '@username' => new Filter_And(

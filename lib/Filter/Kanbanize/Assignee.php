@@ -2,17 +2,22 @@
 
 class Filter_Kanbanize_Assignee implements Filter {
 
-  protected $assignee;
+  protected $assignees = array();
 
-  public function __construct ($assignee) {
-    if (empty($assignee)) {
-      throw new InvalidArgumentException('$assignee must not be empty');
+  public function __construct ($assignee1, $assignee2 = null, $assignee_n = null) {
+    if (empty($assignee1) || (!is_string($assignee1) && !is_numeric($assignee1))) {
+      throw new InvalidArgumentException('$assignee must be a string, '.$assignee1.' given.');
     }
-    $this->assignee = $assignee;
+    foreach (func_get_args() as $k => $arg) {
+      if (!is_null($arg) && (empty($arg) || (!is_string($arg) && !is_numeric($arg)))) {
+        throw new InvalidArgumentException("\$assignee $k must be a string, $arg given.");
+      }
+      $this->assignees[] = $arg;
+    }
   }
 
   public function include_item(array $item) {
-    return ($item['task']['assignee'] == $this->assignee);
+    return in_array($item['task']['assignee'], $this->assignees);
   }
 
 }
