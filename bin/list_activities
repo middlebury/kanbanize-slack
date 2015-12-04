@@ -5,21 +5,33 @@ require_once(dirname(__FILE__)."/../config.php");
 require_once(dirname(__FILE__)."/../lib/autoload.php");
 
 date_default_timezone_set("UTC");
-if (!defined("KANBANIZE_API_KEY") || !strlen(KANBANIZE_API_KEY)) {
-  throw new Exception("KANBANIZE_API_KEY must be defined in config.php");
-}
-if (!defined("KANBANIZE_SUBDOMAIN") || !strlen(KANBANIZE_SUBDOMAIN)) {
-  throw new Exception("KANBANIZE_SUBDOMAIN must be defined in config.php");
-}
 
-$kanbanize = new Kanbanize_ActivityStream(KANBANIZE_SUBDOMAIN, KANBANIZE_API_KEY);
+// Fetch activity for all configured boards.
+$activity = array();
+
+if (empty($config['KANBANIZE']['API_KEY'])) {
+  throw new Exception("\$config['KANBANIZE']['API_KEY'] must be defined in config.php");
+}
+if (empty($config['KANBANIZE']['SUBDOMAIN'])) {
+  throw new Exception("\$config['KANBANIZE']['SUBDOMAIN'] must be defined in config.php");
+}
+$kanbanize = new Kanbanize_ActivityStream($config['KANBANIZE']['SUBDOMAIN'], $config['KANBANIZE']['API_KEY']);
+
 $dir = dirname(__FILE__).'/../data/tmp';
 mkdir($dir);
 $kanbanize->set_data_dir($dir);
 
-$activities = $kanbanize->get_new_activity_for_board(2);
+if (empty($config['KANBANIZE']['BOARDS']) || !is_array($config['KANBANIZE']['BOARDS'])) {
+  throw new Exception("\$config['KANBANIZE']['BOARDS'] must be an array of integer board-ids");
+}
+foreach ($config['KANBANIZE']['BOARDS'] as $board_id) {
+  if (!is_int($board_id)) {
+    throw new Exception("\$config['KANBANIZE']['BOARDS'] must be an array of integer board-ids");
+  }
+  $activity = array_merge($activity, $kanbanize->get_new_activity_for_board($board_id));
+}
 
 array_map('unlink', glob($dir."/last_posted*"));
 rmdir($dir);
 
-print_r($activities);
+print_r($activity);

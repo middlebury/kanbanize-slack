@@ -2,8 +2,16 @@
 
 // Rename to config.php and add your own values.
 
-define("KANBANIZE_API_KEY", "");
-define("KANBANIZE_SUBDOMAIN", "");
+$config['KANBANIZE']['API_KEY'] = '';
+$config['KANBANIZE']['SUBDOMAIN'] = '';
+// Specify as many boards as needed.
+$config['KANBANIZE']['BOARDS'] = array(2);
 
-define("SLACK_URL", "");
-define("SLACK_CHANNEL", "");
+// Each of the SLACK_ORGS must have at least one destination channel/filter.
+$config['SLACK_ORGS']['my_org']['WEBHOOK_URL'] = '';
+$config['SLACK_ORGS']['my_org']['DESTINATIONS'] = array(
+  '#my-channel' => array(
+    'CLASS' => 'Slack_Destination_Everything',
+    'ARGS' => array(),
+  ),
+);
