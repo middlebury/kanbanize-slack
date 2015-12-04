@@ -1,6 +1,6 @@
 <?php
 
-class KanbanizeSlackFormatter implements SlackFormatter {
+class Slack_Formatter_Kanbanize implements Slack_Formatter {
 
   protected $username;
   protected $icon_url = null;

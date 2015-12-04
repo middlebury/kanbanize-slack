@@ -1,6 +1,6 @@
 <?php
 
-class SlackRouter {
+class Slack_Router {
 
   protected $slack_url;
   protected $formatters = array();
@@ -13,11 +13,11 @@ class SlackRouter {
     $this->slack_url = $slack_url;
   }
 
-  public function add_destination(SlackDestination $destination) {
+  public function add_destination(Slack_Destination $destination) {
     $this->destinations[] = $destination;
   }
 
-  public function add_formatter(SlackFormatter $formatter) {
+  public function add_formatter(Slack_Formatter $formatter) {
     $this->formatters[] = $formatter;
   }
 
@@ -53,7 +53,6 @@ class SlackRouter {
     }
     $data['channel'] = $channel;
     $json = json_encode($data);
-    var_dump($json);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $this->slack_url);

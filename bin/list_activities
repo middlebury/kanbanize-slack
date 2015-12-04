@@ -12,7 +12,7 @@ if (!defined("KANBANIZE_SUBDOMAIN") || !strlen(KANBANIZE_SUBDOMAIN)) {
   throw new Exception("KANBANIZE_SUBDOMAIN must be defined in config.php");
 }
 
-$kanbanize = new KanbanizeActivityStream(KANBANIZE_SUBDOMAIN, KANBANIZE_API_KEY);
+$kanbanize = new Kanbanize_ActivityStream(KANBANIZE_SUBDOMAIN, KANBANIZE_API_KEY);
 $dir = dirname(__FILE__).'/../data/tmp';
 mkdir($dir);
 $kanbanize->set_data_dir($dir);

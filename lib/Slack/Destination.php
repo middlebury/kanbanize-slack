@@ -1,6 +1,6 @@
 <?php
 
-interface SlackDestination {
+interface Slack_Destination {
 
   public function get_channel();
 

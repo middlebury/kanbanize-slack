@@ -1,6 +1,6 @@
 <?php
 
-class KanbanizeActivityStream {
+class Kanbanize_ActivityStream {
 
   protected $tasks = array();
   protected $subdomain = null;
@@ -11,7 +11,7 @@ class KanbanizeActivityStream {
     $this->kanbanize->setSubdomain($subdomain);
     $this->kanbanize->setApiKey($apikey);
     $this->subdomain = $subdomain;
-    $this->data_dir = realpath(dirname(__FILE__).'/../data');
+    $this->data_dir = realpath(dirname(__FILE__).'/../../data');
   }
 
   function set_data_dir($dir) {
@@ -24,7 +24,7 @@ class KanbanizeActivityStream {
     $from_date->sub($interval);
     $to_date = new DateTime();
     $to_date->add($interval);
-    $activities = new KanbanizeActivityList($this->kanbanize, $board_id, $from_date, $to_date);
+    $activities = new Kanbanize_ActivityList($this->kanbanize, $board_id, $from_date, $to_date);
 
 
     if (!file_exists($this->data_dir) || !is_writable($this->data_dir)) {

@@ -18,7 +18,7 @@ if (!defined("SLACK_CHANNEL") || !strlen(SLACK_CHANNEL)) {
   throw new Exception("SLACK_CHANNEL must be defined in config.php");
 }
 
-$kanbanize = new KanbanizeActivityStream(KANBANIZE_SUBDOMAIN, KANBANIZE_API_KEY);
+$kanbanize = new Kanbanize_ActivityStream(KANBANIZE_SUBDOMAIN, KANBANIZE_API_KEY);
 $activities = $kanbanize->get_new_activity_for_board(2);
 
 $groups = array();
@@ -30,7 +30,7 @@ foreach ($activities as $item) {
   }
 }
 
-$slack = new SlackRouter(SLACK_URL);
-$slack->add_destination(new EverythingSlackDestination(SLACK_CHANNEL));
-$slack->add_formatter(new KanbanizeSlackFormatter('Kanbanize', 'https://lh5.ggpht.com/aoUf1ZvpVeACwH2TBy0nP_Ipv53PtVnU42vCuutBDqCKcnfp5j78wUfBm41zix88_BM=w300'));
+$slack = new Slack_Router(SLACK_URL);
+$slack->add_destination(new Slack_Destination_Everything(SLACK_CHANNEL));
+$slack->add_formatter(new Slack_Formatter_Kanbanize('Kanbanize', 'https://lh5.ggpht.com/aoUf1ZvpVeACwH2TBy0nP_Ipv53PtVnU42vCuutBDqCKcnfp5j78wUfBm41zix88_BM=w300'));
 $slack->route_activities($groups);

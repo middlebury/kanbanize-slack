@@ -1,6 +1,6 @@
 <?php
 
-class EverythingSlackDestination implements SlackDestination {
+class Slack_Destination_Everything implements Slack_Destination {
 
   protected $channel;
 

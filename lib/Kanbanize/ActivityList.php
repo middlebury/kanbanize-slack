@@ -1,6 +1,6 @@
 <?php
 
-class KanbanizeActivityList implements Iterator {
+class Kanbanize_ActivityList implements Iterator {
 
   protected $items = array();
   protected $position = 0;

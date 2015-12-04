@@ -1,6 +1,6 @@
 <?php
 
-interface SlackFormatter {
+interface Slack_Formatter {
 
   public function can_handle(array $item);
 
