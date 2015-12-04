@@ -21,7 +21,16 @@ if (!defined("SLACK_URL") || empty(SLACK_URL)) {
 $kanbanize = new KanbanizeActivityStream(KANBANIZE_SUBDOMAIN, KANBANIZE_API_KEY);
 $activities = $kanbanize->get_new_activity_for_board(2);
 
+$groups = array();
+foreach ($activities as $item) {
+  if (empty($item['taskid'])) {
+    $groups['other'][] = $item;
+  } else {
+    $groups[$item['taskid']][] = $item;
+  }
+}
+
 $slack = new SlackRouter(SLACK_URL);
 $slack->add_destination(new EverythingSlackDestination("@afranco"));
 $slack->add_formatter(new KanbanizeSlackFormatter('Kanbanize'));
-$slack->route_activities($activities);
+$slack->route_activities($groups);

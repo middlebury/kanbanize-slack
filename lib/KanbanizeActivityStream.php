@@ -7,11 +7,14 @@ require_once(dirname(__FILE__)."/KanbanizeActivityList.php");
 class KanbanizeActivityStream {
 
   protected $tasks = array();
+  protected $subdomain = null;
+  protected $boards;
 
   function __construct($subdomain, $apikey) {
     $this->kanbanize = EtuDev_KanbanizePHP_API::getInstance();
     $this->kanbanize->setSubdomain($subdomain);
     $this->kanbanize->setApiKey($apikey);
+    $this->subdomain = $subdomain;
   }
 
   function get_new_activity_for_board($board_id) {
@@ -44,6 +47,8 @@ class KanbanizeActivityStream {
       } else {
         if (!empty($item["taskid"])) {
           $item["task"] = $this->get_task($board_id, $item["taskid"]);
+          $item["board"] = $this->get_board($board_id);
+          $item["url"] = "https://".$this->subdomain.".kanbanize.com/ctrl_board/".$board_id."/".$item["taskid"];
         }
         $new_activity[] = $item;
       }
@@ -63,6 +68,25 @@ class KanbanizeActivityStream {
 
   function fetch_task($board_id, $id) {
     $result = $this->kanbanize->getTaskDetails($board_id, $id);
+    $result["url"] = "https://".$this->subdomain.".kanbanize.com/ctrl_board/".$board_id."/".$id;
     return $result;
+  }
+
+  function get_board($board_id) {
+    if (!isset($this->boards)) {
+      $result = $this->kanbanize->getProjectsAndBoards();
+      $this->boards = array();
+      foreach ($result as $project) {
+        foreach ($project["boards"] as $board) {
+          $this->boards[$board["id"]] = array(
+            "id" => $board["id"],
+            "name" => $board["name"],
+            "project_name" => $project["name"],
+            "project_id" => $project["id"],
+          );
+        }
+      }
+    }
+    return $this->boards[$board_id];
   }
 }
