@@ -15,6 +15,11 @@ class KanbanizeActivityStream {
     $this->kanbanize->setSubdomain($subdomain);
     $this->kanbanize->setApiKey($apikey);
     $this->subdomain = $subdomain;
+    $this->data_dir = realpath(dirname(__FILE__).'/../data');
+  }
+
+  function set_data_dir($dir) {
+    $this->data_dir = $dir;
   }
 
   function get_new_activity_for_board($board_id) {
@@ -25,11 +30,11 @@ class KanbanizeActivityStream {
     $to_date->add($interval);
     $activities = new KanbanizeActivityList($this->kanbanize, $board_id, $from_date, $to_date);
 
-    $position_dir = realpath(dirname(__FILE__).'/../data');
-    if (!file_exists($position_dir) || !is_writable($position_dir)) {
-      throw new Exception($position_dir." must exist and be writable!");
+
+    if (!file_exists($this->data_dir) || !is_writable($this->data_dir)) {
+      throw new Exception($this->data_dir." must exist and be writable!");
     }
-    $position_file = $position_dir.'/last_posted_in_board_'.$board_id;
+    $position_file = $this->data_dir.'/last_posted_in_board_'.$board_id;
     if (!file_exists($position_file)) {
       touch($position_file);
     }
