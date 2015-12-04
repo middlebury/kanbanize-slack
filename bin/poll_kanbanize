@@ -8,16 +8,16 @@ require_once(dirname(__FILE__)."/../lib/EverythingSlackDestination.php");
 require_once(dirname(__FILE__)."/../lib/KanbanizeSlackFormatter.php");
 
 date_default_timezone_set("UTC");
-if (!defined("KANBANIZE_API_KEY") || empty(KANBANIZE_API_KEY)) {
+if (!defined("KANBANIZE_API_KEY") || !strlen(KANBANIZE_API_KEY)) {
   throw new Exception("KANBANIZE_API_KEY must be defined in config.php");
 }
-if (!defined("KANBANIZE_SUBDOMAIN") || empty(KANBANIZE_SUBDOMAIN)) {
+if (!defined("KANBANIZE_SUBDOMAIN") || !strlen(KANBANIZE_SUBDOMAIN)) {
   throw new Exception("KANBANIZE_SUBDOMAIN must be defined in config.php");
 }
-if (!defined("SLACK_URL") || empty(SLACK_URL)) {
+if (!defined("SLACK_URL") || !strlen(SLACK_URL)) {
   throw new Exception("SLACK_URL must be defined in config.php");
 }
-if (!defined("SLACK_CHANNEL") || empty(SLACK_CHANNEL)) {
+if (!defined("SLACK_CHANNEL") || !strlen(SLACK_CHANNEL)) {
   throw new Exception("SLACK_CHANNEL must be defined in config.php");
 }
 
