@@ -14,4 +14,8 @@ $config['SLACK_ORGS']['my_org']['DESTINATIONS'] = array(
     'FILTER_CLASS' => 'Slack_Filter_Everything',
     'FILTER_ARGS' => array(),
   ),
+  '@username' => array(
+    'FILTER_CLASS' => 'Slack_Filter_NotAuthor',
+    'FILTER_ARGS' => array('username'),
+  )
 );

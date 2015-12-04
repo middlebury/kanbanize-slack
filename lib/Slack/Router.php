@@ -28,10 +28,16 @@ class Slack_Router {
     if (!count($this->formatters)) {
       throw new Exception("You must configure at least one Slack formatter.");
     }
-    foreach ($activities as $item) {
+    foreach ($activities as $group) {
       foreach ($this->destinations as $destination) {
-        if ($destination->item_matches($item)) {
-          $this->post($destination->get_channel(), $item);
+        $filtered_group = array();
+        foreach ($group as $item) {
+          if ($destination->item_matches($item)) {
+            $filtered_group[] = $item;
+          }
+        }
+        if (count($filtered_group)) {
+          $this->post($destination->get_channel(), $filtered_group);
         }
       }
     }
