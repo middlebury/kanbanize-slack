@@ -64,6 +64,5 @@ class SlackRouter {
     $slack_response = curl_exec ($ch);
     curl_close ($ch);
 
-    var_dump($slack_response);
   }
 }
