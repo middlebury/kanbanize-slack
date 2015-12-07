@@ -58,7 +58,7 @@ foreach ($config['SLACK_ORGS'] as $org_name => $org_opts) {
   }
 
   // Add our formatters
-  $slack->add_formatter(new Slack_Formatter_Kanbanize('Kanbanize', 'https://lh5.ggpht.com/aoUf1ZvpVeACwH2TBy0nP_Ipv53PtVnU42vCuutBDqCKcnfp5j78wUfBm41zix88_BM=w300'));
+  $slack->add_formatter(new Slack_Formatter_KanbanizeShort('Kanbanize', 'https://lh5.ggpht.com/aoUf1ZvpVeACwH2TBy0nP_Ipv53PtVnU42vCuutBDqCKcnfp5j78wUfBm41zix88_BM=w300'));
 
   // Route our activities to our destinations.
   $slack->route_activities($groups);
