@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-require_once(dirname(__FILE__)."/../config.php");
 require_once(dirname(__FILE__)."/../lib/autoload.php");
+require_once(dirname(__FILE__)."/../config.php");
 
 date_default_timezone_set("UTC");
 
