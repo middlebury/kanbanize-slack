@@ -29,14 +29,26 @@ class Slack_Formatter_KanbanizeShort extends Slack_Formatter_Kanbanize {
     }
 
     // Add Each item as its own entry.
+    $text = "";
     foreach (array_reverse($group) as $item) {
-      $a = array(
-        "fallback" => $item['event'].' by '.$item['author'].': '.$item['text'],
-        "title" => $item['event'].' by '.$item['author'],
-        "text" => $item['text'],
-        "fields" => array(),
-      );
-      $d['attachments'][] = $a;
+      // Put Comments in their own attachment so they don't get hidden.
+      if ($item['event'] == 'Comment added') {
+        // Add any previous items as an attachment.
+        $text = trim($text);
+        if (strlen($text)) {
+          $d['attachments'][] = array('text' => $text, 'mrkdwn_in' => array('text'));
+        }
+        // Add the comment
+        $d['attachments'][] = array('text' => "*".$item['event'].' by '.$item['author'].':* '.$item['text'], 'mrkdwn_in' => array('text'), 'color' => '#0000CC');
+        // Start a new attachment.
+        $text = "";
+      } else {
+        $text .= "*".$item['event'].' by '.$item['author'].':* '.$item['text']."\n";
+      }
+    }
+    $text = trim($text);
+    if (strlen($text)) {
+      $d['attachments'][] = array('text' => $text, 'mrkdwn_in' => array('text'));
     }
     return $d;
   }
