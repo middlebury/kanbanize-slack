@@ -20,7 +20,7 @@ Installation
 
 5. Add a `cron` job to run the script periodically, e.g. every 5 minutes or so.
 
-   Note that Kanbanize has per-hour & per-key [API request limits](https://kanbanize.com/api/) which at the time of this writing is 30 calls to `get_board_activities` per hour, giving a practical limit of running the script every 2 or 3 minutes for a single board or less often for more boards.
+   Note that Kanbanize has per-hour & per-key [API request limits](https://kanbanize.com/api/) which at the time of this writing are 30 calls to `get_board_activities` per hour, giving a practical limit of running the script every 2 or 3 minutes for a single board or less often for more boards.
 
 General Configuration
 ---------------------
@@ -161,7 +161,7 @@ More complex filter examples
 
 **Others' activity on my items**
 
-Send activity other make to Kanbanize items assigned to me to my channel:
+Send activity others make to Kanbanize items assigned to me to my channel:
 
     $config['SLACK_ORGS']['my_org']['DESTINATIONS'] = array(
       '@slack-username' => new Filter_And(
