@@ -12,9 +12,9 @@ Installation
 
 3. Clone this repository and its required submodules:
 
-       git clone https://github.com/middlebury/kanbanize-slack.git
-       cd kanbanize-slack
-       git submodule update --init
+        git clone https://github.com/middlebury/kanbanize-slack.git
+        cd kanbanize-slack
+        git submodule update --init
 
 4. Copy the `config.php.example` file to `config.php` and configure your values (more on that below).
 
