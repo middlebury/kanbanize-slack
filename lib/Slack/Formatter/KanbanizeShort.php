@@ -23,7 +23,7 @@ class Slack_Formatter_KanbanizeShort extends Slack_Formatter_Kanbanize {
       $d['text'] .= "    :bust_in_silhouette: ".$t['assignee'];
       $d['text'] .= "    :label: ".$t['tags'];
 
-      if ($t['blocked'] != "0") {
+      if (!empty($t['blocked']) && $t['blocked'] != "0") {
         $d['text'] .= "    :no_entry_sign: ".(($t['blockedreason'])?$t['blockedreason']:'Blocked');
       }
     }

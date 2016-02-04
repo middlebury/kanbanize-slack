@@ -87,7 +87,7 @@ class Slack_Formatter_Kanbanize implements Slack_Formatter {
           "short" => true,
         );
       }
-      if ($t['blocked'] != "0") {
+      if (!empty($t['blocked']) && $t['blocked'] != "0") {
         $a['fields'][] = array(
           "title" => "Blocked",
           "value" => ':no_entry_sign: Blocked'.(($t['blockedreason'])?': '.$t['blockedreason']:''),
