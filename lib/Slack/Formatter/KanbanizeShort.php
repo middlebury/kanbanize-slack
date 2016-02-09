@@ -31,6 +31,11 @@ class Slack_Formatter_KanbanizeShort extends Slack_Formatter_Kanbanize {
     // Add Each item as its own entry.
     $text = "";
     foreach (array_reverse($group) as $item) {
+      // Strip the 'None' assignee from subtask messsages.
+      if (preg_match('/^Subtask: None/', $item['text'])) {
+        $item['text'] = preg_replace('/^Subtask: None/', 'Subtask: ', $item['text']);
+      }
+
       // Put Comments in their own attachment so they don't get hidden.
       if ($item['event'] == 'Comment added') {
         // Add any previous items as an attachment.
