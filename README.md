@@ -3,6 +3,8 @@ Kanbanize-Slack integration
 
 This command-line program will poll (via `cron` job) Kanbanize looking for new activity on your boards, group the activity by task and then send [optionally] filtered sets of activity to a list of Slack channels via an "Incoming WebHook".
 
+![Kanbanize-Slack screen-shot](Kanbanize-Slack-screen-shot.png)
+
 Installation
 ------------
 
