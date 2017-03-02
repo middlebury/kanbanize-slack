@@ -5,7 +5,7 @@
 $config['KANBANIZE']['API_KEY'] = '';
 $config['KANBANIZE']['SUBDOMAIN'] = '';
 // Specify as many boards as needed.
-$config['KANBANIZE']['BOARDS'] = array(2);
+$config['KANBANIZE']['BOARDS'] = array(2, 3, 4);
 
 // Each of the SLACK_ORGS must have at least one destination channel/filter.
 $config['SLACK_ORGS']['my_org']['WEBHOOK_URL'] = '';
@@ -14,7 +14,7 @@ $config['SLACK_ORGS']['my_org']['DESTINATIONS'] = array(
   '#my-channel' => new Filter_Everything(),
 
   // Send items from boards 4 and 5 to #other-channel
-  '#other-channel' => new Filter_Board(4, 5),
+  '#other-channel' => new Filter_Kanbanize_Board(4, 5),
 
   // Send others' changes to items assigned to me to my personal channel.
   '@username' => new Filter_And(
